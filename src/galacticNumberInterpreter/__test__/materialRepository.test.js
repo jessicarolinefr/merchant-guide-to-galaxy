@@ -1,4 +1,4 @@
-const MaterialRepository = require("../materialRepository");
+const MaterialRepository = require("../infratructure/materialRepository");
 
 describe("MaterialRepository", () => {
   it("should store material price", () => {

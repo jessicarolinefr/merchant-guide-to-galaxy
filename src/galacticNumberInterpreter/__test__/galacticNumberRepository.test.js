@@ -1,4 +1,4 @@
-const GalacticNumberRepository = require("../galacticNumberRepository");
+const GalacticNumberRepository = require("../infratructure/galacticNumberRepository");
 
 describe("GalacticNumberRepository", () => {
   it("Should store galactic numbers values", () => {

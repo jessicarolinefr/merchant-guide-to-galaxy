@@ -1,4 +1,4 @@
-const buildInterpreter = require("../buildInterpreter");
+const buildInterpreter = require("../application/buildInterpreter");
 
 describe("buildInterpreter", () => {
   it("should invoke a function given a command", () => {

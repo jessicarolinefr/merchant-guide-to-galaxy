@@ -1,4 +1,4 @@
-const CommandService = require("../commandService");
+const CommandService = require("../domain/commandService");
 
 describe("CommandService", () => {
   describe("mapGalacticToRomanFigure", () => {

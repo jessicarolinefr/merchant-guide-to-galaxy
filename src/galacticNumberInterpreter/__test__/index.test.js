@@ -1,4 +1,4 @@
-const { convert, isValidRomanFigure } = require("../index");
+const { convert, isValidRomanFigure } = require("../domain/index");
 
 describe("convert", () => {
   it("should convert I to 1", () => {

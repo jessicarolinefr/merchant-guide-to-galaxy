@@ -1,7 +1,7 @@
 const buildInterpreter = require("./buildInterpreter");
-const CommandService = require("./commandService");
-const MaterialRepository = require("./materialRepository");
-const GalacticNumberRepository = require("./galacticNumberRepository");
+const CommandService = require("../domain/commandService");
+const MaterialRepository = require("../infratructure/materialRepository");
+const GalacticNumberRepository = require("../infratructure/galacticNumberRepository");
 
 const build = () => {
   const galacticNumberRepository = new GalacticNumberRepository();
