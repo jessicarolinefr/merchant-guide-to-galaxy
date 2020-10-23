@@ -57,7 +57,7 @@ describe("CommandService", () => {
     });
   });
 
-  describe("howManyCredits", () => {
+  describe("calculateMaterialValue", () => {
     it("should calculate the total price to material", () => {
       const fakeMaterialRepository = {
         find: jest.fn(() => ({ name: "Silver", price: 17 })),
@@ -75,9 +75,9 @@ describe("CommandService", () => {
         fakeMaterialRepository
       );
 
-      expect(commandService.howManyCredits(["glob", "prok"], "Silver")).toEqual(
-        68
-      );
+      expect(
+        commandService.calculateMaterialValue(["glob", "prok"], "Silver")
+      ).toEqual(68);
     });
   });
 });

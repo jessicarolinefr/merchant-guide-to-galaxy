@@ -1,32 +1,55 @@
-const factory = require("../application/factory");
+const Interpreter = require("../application/interpreter");
 
-describe("interpreter", () => {
-  it("should interpret commands and responde accordingly", () => {
-    const interpreter = factory();
+describe("Interpreter", () => {
+  it("should invoke a function given a command", () => {
+    const spy = jest.fn();
+    const interpreter = Interpreter({ mapGalacticToRomanFigure: spy });
 
-    expect(interpreter("glob is I")).toBeUndefined();
-    expect(interpreter("prok is V")).toBeUndefined();
-    expect(interpreter("pish is X")).toBeUndefined();
-    expect(interpreter("tegj is L")).toBeUndefined();
-    expect(interpreter("glob glob Silver is 34 Credits")).toBeUndefined();
-    expect(interpreter("glob prok Gold is 57800 Credits")).toBeUndefined();
-    expect(interpreter("pish pish Iron is 3910 Credits")).toBeUndefined();
-    expect(interpreter("how much is pish tegj glob glob ?")).toEqual(
-      "pish tegj glob glob is 42"
-    );
-    expect(interpreter("how many Credits is glob prok Silver ?")).toEqual(
-      "glob prok Silver is 68 Credits"
-    );
-    expect(interpreter("how many Credits is glob prok Gold ?")).toEqual(
-      "glob prok Gold is 57800 Credits"
-    );
-    expect(interpreter("how many Credits is glob prok Iron ?")).toEqual(
-      "glob prok Iron is 782 Credits"
-    );
-    expect(
-      interpreter(
-        "how much wood could a woodchuck chuck if a woodchuck could chuck wood ?"
-      )
-    ).toEqual("I have no idea what you are talking about");
+    const result = interpreter("glob is I");
+    expect(result).toBeUndefined();
+    expect(spy).toHaveBeenCalledWith("glob", "I");
+
+    interpreter("prok is V");
+    expect(spy).toHaveBeenLastCalledWith("prok", "V");
+
+    interpreter("pish is X");
+    expect(spy).toHaveBeenLastCalledWith("pish", "X");
+
+    interpreter("tegj is L");
+    expect(spy).toHaveBeenLastCalledWith("tegj", "L");
+  });
+
+  it("should invoke another function given a command", () => {
+    const spy = jest.fn();
+    const interpreter = Interpreter({ mapMaterialToCredits: spy });
+
+    const result = interpreter("glob  glob Silver is 34 Credits");
+    expect(result).toBeUndefined();
+    expect(spy).toHaveBeenCalledWith(["glob", "glob"], "Silver", 34);
+  });
+
+  it("should invoke translateGalacticNumber command", () => {
+    const spy = jest.fn(() => 42);
+    const interpreter = Interpreter({ translateGalacticNumber: spy });
+
+    const result = interpreter("how much is pish  tegj glob glob ?");
+    expect(result).toEqual("pish tegj glob glob is 42");
+    expect(spy).toHaveBeenCalledWith(["pish", "tegj", "glob", "glob"]);
+  });
+
+  it("should invoke calculateMaterialValue command", () => {
+    const spy = jest.fn(() => 68);
+    const interpreter = Interpreter({ calculateMaterialValue: spy });
+
+    const result = interpreter("how many Credits is glob prok Silver ?");
+    expect(result).toEqual("glob prok Silver is 68 Credits");
+    expect(spy).toHaveBeenCalledWith(["glob", "prok"], "Silver");
+  });
+
+  it("should throw when command is not found", () => {
+    const interpreter = Interpreter({});
+    const result = interpreter("blablabla");
+
+    expect(result).toEqual("I have no idea what you are talking about");
   });
 });

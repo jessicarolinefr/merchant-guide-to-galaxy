@@ -1,4 +1,4 @@
-const buildInterpreter = require("./buildInterpreter");
+const Interpreter = require("./interpreter");
 const CommandService = require("../domain/commandService");
 const MaterialRepository = require("../infratructure/materialRepository");
 const GalacticNumberRepository = require("../infratructure/galacticNumberRepository");
@@ -11,7 +11,7 @@ const build = () => {
     materialRepository
   );
 
-  return buildInterpreter(commandService);
+  return Interpreter(commandService);
 };
 
 module.exports = build;

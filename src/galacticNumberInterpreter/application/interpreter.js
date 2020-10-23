@@ -10,15 +10,15 @@ const parseGalacticNumbers = (value) => {
   return value.split(/\s+/);
 };
 
-const buildInterpreter = (command) => (line) => {
+const Interpreter = (commands) => (line) => {
   const mapGalacticToRomanFigureRegex = /(?<galacticFigure>[a-zA-Z]+)\s+is\s+(?<romanFigure>[A-Z])/;
   const mapMaterialToCreditsRegex = /(?<galacticNumbersAndMaterial>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+is\s+(?<credits>\d+)\s+Credits/;
   const translateGalacticNumberRegex = /how\s+much\s+is\s+(?<galacticNumber>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+\?/;
-  const howManyCreditsRegex = /how\s+many\s+Credits\s+is\s+(?<galacticNumbersAndMaterial>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+\?/;
+  const calculateMaterialValueRegex = /how\s+many\s+Credits\s+is\s+(?<galacticNumbersAndMaterial>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+\?/;
 
   if (line.match(mapGalacticToRomanFigureRegex)) {
     const result = line.match(mapGalacticToRomanFigureRegex);
-    command.mapGalacticToRomanFigure(
+    commands.mapGalacticToRomanFigure(
       result.groups.galacticFigure,
       result.groups.romanFigure
     );
@@ -26,7 +26,7 @@ const buildInterpreter = (command) => (line) => {
     const result = line.match(mapMaterialToCreditsRegex);
     const material = parseMaterial(result.groups.galacticNumbersAndMaterial);
 
-    command.mapMaterialToCredits(
+    commands.mapMaterialToCredits(
       material.quantity,
       material.name,
       parseInt(result.groups.credits)
@@ -35,13 +35,16 @@ const buildInterpreter = (command) => (line) => {
     const result = line.match(translateGalacticNumberRegex).groups
       .galacticNumber;
     const galacticNumbers = parseGalacticNumbers(result);
-    const number = command.translateGalacticNumber(galacticNumbers);
+    const number = commands.translateGalacticNumber(galacticNumbers);
 
     return `${galacticNumbers.join(" ")} is ${number}`;
-  } else if (line.match(howManyCreditsRegex)) {
-    const result = line.match(howManyCreditsRegex);
+  } else if (line.match(calculateMaterialValueRegex)) {
+    const result = line.match(calculateMaterialValueRegex);
     const material = parseMaterial(result.groups.galacticNumbersAndMaterial);
-    const credits = command.howManyCredits(material.quantity, material.name);
+    const credits = commands.calculateMaterialValue(
+      material.quantity,
+      material.name
+    );
 
     return `${material.quantity.join(" ")} ${
       material.name
@@ -51,4 +54,4 @@ const buildInterpreter = (command) => (line) => {
   }
 };
 
-module.exports = buildInterpreter;
+module.exports = Interpreter;

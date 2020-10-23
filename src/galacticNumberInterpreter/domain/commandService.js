@@ -1,4 +1,4 @@
-const { convert } = require("./index");
+const { convert } = require("./romanNumberParser");
 
 class CommandService {
   constructor(galacticNumberRepository, materialRepository) {
@@ -34,7 +34,7 @@ class CommandService {
     return convert(romanNumber);
   }
 
-  howManyCredits(quantity, materialName) {
+  calculateMaterialValue(quantity, materialName) {
     const romanNumber = quantity
       .map((figure) => this._galacticNumberRepository.find(figure).value)
       .join("");
