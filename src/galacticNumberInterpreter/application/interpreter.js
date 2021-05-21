@@ -11,9 +11,9 @@ const parseGalacticNumbers = (value) => {
 };
 
 const Interpreter = (commands) => (line) => {
-  const mapGalacticToRomanFigureRegex = /[A-Z]/;
+  const mapGalacticToRomanFigureRegex = /(?<galacticFigure>[a-zA-Z]+)\s+is\s+(?<romanFigure>[A-Z])/;
   const mapMaterialToCreditsRegex = /(?<galacticNumbersAndMaterial>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+is\s+(?<credits>\d+)\s+Credits/;
-  const translateGalacticNumberRegex = /how\s+much\s+is\s+\s+\?/;
+  const translateGalacticNumberRegex = /how\s+much\s+is\s+(?<galacticNumber>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+\?/;
   const calculateMaterialValueRegex = /how\s+many\s+Credits\s+is\s+(?<galacticNumbersAndMaterial>[a-zA-Z][a-zA-Z\s]+[a-zA-Z])\s+\?/;
 
   if (line.match(mapGalacticToRomanFigureRegex)) {
