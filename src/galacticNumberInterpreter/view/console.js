@@ -1,4 +1,4 @@
-const build = require("./factory");
+const build = require("../application/interpreterFactory");
 const fn = build();
 const readline = require("readline");
 
